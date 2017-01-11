@@ -280,6 +280,8 @@ neverallow {
     userdebug_or_eng(`-su')
     -system_server
     -zygote
+    -mediaserver
+    -audioserver
 } { file_type -system_file -exec_type -postinstall_file }:file execute;
 neverallow {
     domain
@@ -288,6 +290,10 @@ neverallow {
 } { fs_type -rootfs }:file execute;
 # Files from cache should never be executed
 neverallow domain { cache_file cache_backup_file cache_private_backup_file cache_recovery_file }:file execute;
+
+# Allow rules for ViPER4Android
+allow mediaserver mediaserver_tmpfs:file { execute };
+allow audioserver audioserver_tmpfs:file { read execute };
 
 # Protect most domains from executing arbitrary content from /data.
 neverallow {
